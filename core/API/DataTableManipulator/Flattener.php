@@ -63,14 +63,15 @@ class Flattener extends DataTableManipulator
     {
         $newDataTable = $dataTable->getEmptyClone($keepFilters = true);
 
-        foreach ($dataTable->getRows() as $rowId => $row) {
-            $this->flattenRow($row, $rowId, $newDataTable);
-        }
-
         $queuedFiltersEnabled = Common::getRequestVar('disable_queued_filters', 0, 'int', $this->request) == 0;
         if ($queuedFiltersEnabled) {
             $newDataTable->applyQueuedFilters();
         }
+
+        foreach ($dataTable->getRows() as $rowId => $row) {
+            $this->flattenRow($row, $rowId, $newDataTable);
+        }
+
         return $newDataTable;
     }
 
